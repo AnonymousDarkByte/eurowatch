@@ -76,14 +76,14 @@ def extract_cves(markdown: str) -> str | None:
 
 def extract_countries(markdown: str) -> str | None:
     """
-    Extract country codes from the 'List of CSIRTs Network member alerts' table.
-    A country is included if it has a specific linked advisory (not just a generic page).
+    Extract country codes from the CSIRTs member table.
+    2024+ format: only count countries with bolded specific advisories (**)
+    2021-2023 format: count countries with any non-empty link
     """
     countries = set()
-    # Find rows in the member table that have a bolded (specific) advisory link
-    # Bold links look like: [**Title**](url)
     lines = markdown.split("\n")
     in_member_table = False
+    has_bold_links = "**" in markdown
 
     for line in lines:
         if "List of CSIRTs Network member alerts" in line:
@@ -91,18 +91,23 @@ def extract_countries(markdown: str) -> str | None:
             continue
 
         if in_member_table and line.startswith("|"):
-            # Extract country code — first cell of table row
             cells = [c.strip() for c in line.split("|") if c.strip()]
             if not cells:
                 continue
             country = cells[0].strip().upper()
-            if country in KNOWN_COUNTRIES:
-                # Only count if they issued a specific advisory (bolded link)
+            if country not in KNOWN_COUNTRIES:
+                continue
+
+            if has_bold_links:
+                # 2024+ format: only count bold (specific) advisory links
                 if "**" in line:
+                    countries.add(country)
+            else:
+                # 2021-2023 format: count any country with a link
+                if "http" in line:
                     countries.add(country)
 
     return ",".join(sorted(countries)) if countries else None
-
 
 from classifier import classify_severity, classify_sector, classify_attack_type
 

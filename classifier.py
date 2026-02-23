@@ -44,7 +44,8 @@ SECTOR_KEYWORDS = {
         "network device", "vpn", "ssl vpn", "firewall",
         "ivanti connect", "pulse secure", "citrix netscaler",
         "f5 big-ip", "big-ip", "load balancer", "network infrastructure",
-        "bgp", "dns", "carrier", "isp"
+        "bgp", "dns", "carrier", "isp" "forticlient", "fortianalyzer", "fortisiem", "fortiswitch",
+        "fortiap", "fortiweb", "fortimail"
     ],
     "health": [
         "hospital", "health", "medical", "patient", "clinical",
@@ -72,8 +73,22 @@ SECTOR_KEYWORDS = {
         "linux", "android", "apple", "chrome", "firefox",
         "ivanti", "cups", "xz utils", "log4j", "spring",
         "react", "node.js", "apache", "nginx", "jenkins",
-        "gitlab", "github actions", "docker", "kubernetes"
-    ]
+        "gitlab", "github actions", "docker", "kubernetes",
+        "confluence", "atlassian", "jira", "bitbucket",
+        "crushftp", "7-zip", "7zip", "webp", "libwebp",
+        "pmb", "wordpress", "drupal", "joomla", "magento",
+        "splunk", "elastic", "kibana", "grafana",
+        "mattermost", "slack", "teams", "zoom",
+        "python", "ruby", "php", "java", "log4shell",
+        "follina", "proxylogon", "proxyshell", "zerologon",
+        "citrix", "netscaler", "pulse", "globalprotect",
+        "exchange server", "outlook", "office", "office365",
+        "qnap", "nas", "whatsup gold", "nvidia", "container toolkit",
+        "traefik", "openshift", "adobe", "moodle", "sap",
+        "amd", "cpu", "geoserver", "geotools", "nextcloud",
+        "jetbrains", "putty", "github enterprise", "f5",
+        "big-ip", "asm", "awaf",
+            ],
 }
 
 ATTACK_TYPE_KEYWORDS = {

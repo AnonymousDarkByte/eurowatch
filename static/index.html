@@ -510,25 +510,35 @@ function App() {
 
       <div className="container">
         {error && <div className="error-msg">{error}</div>}
+        <div style={{fontFamily:"var(--font-sans)",fontSize:"12px",color:"var(--text-dim)",marginBottom:"20px",lineHeight:"1.6",borderLeft:"2px solid var(--border)",paddingLeft:"12px"}}>
+          Aggregating vulnerability advisories and threat alerts from EU cybersecurity agencies. Severity reflects vendor and agency assessment — not all advisories represent confirmed exploitation.
+        </div>
 
         {/* Stats row */}
         {stats && (
           <div className="stats-row">
             <div className="stat-card">
-              <div className="stat-label">Total Incidents</div>
+              <div className="stat-label">Total Advisories</div>
               <div className="stat-value">{stats.total_incidents}</div>
             </div>
             <div className="stat-card">
-              <div className="stat-label">Critical</div>
-              <div className="stat-value critical">{stats.by_severity?.critical || 0}</div>
+              <div className="stat-label">Last 30 Days</div>
+              <div className="stat-value" style={{color:"var(--amber)"}}>
+                {incidents.filter(i => {
+                  const d = new Date(i.date_published);
+                  const cutoff = new Date();
+                  cutoff.setDate(cutoff.getDate() - 30);
+                  return d >= cutoff;
+                }).length}
+              </div>
             </div>
             <div className="stat-card">
-              <div className="stat-label">High Severity</div>
+              <div className="stat-label">High Risk</div>
               <div className="stat-value high">{stats.by_severity?.high || 0}</div>
             </div>
             <div className="stat-card">
-              <div className="stat-label">EU Sources</div>
-              <div className="stat-value green">{Object.keys(stats.by_source || {}).length}</div>
+              <div className="stat-label">Tracking Since</div>
+              <div className="stat-value green">2020</div>
             </div>
             <div className="stat-card">
               <div className="stat-label">Countries Active</div>
@@ -607,11 +617,11 @@ function App() {
           </div>
           <button className="btn" onClick={() => fetchData()}>Search</button>
           <button className="btn btn-ghost" onClick={reset}>Reset</button>
-          <span className="result-count">{incidents.length} incidents</span>
+          <span className="result-count">{incidents.length} advisories</span>
         </div>
 
         {/* Incidents table */}
-        <div className="section-label">Incident Feed</div>
+        <div className="section-label">Advisory Feed</div>
         {loading ? (
           <div className="loading">LOADING INTELLIGENCE DATA...</div>
         ) : (

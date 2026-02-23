@@ -23,54 +23,7 @@ def parse_date(entry) -> datetime | None:
     return datetime.utcnow()
 
 
-def classify_severity(title: str, summary: str) -> str | None:
-    """Simple keyword-based severity classification."""
-    text = (title + " " + summary).lower()
-    if any(w in text for w in ["critical", "actively exploited", "zero-day", "0-day"]):
-        return "critical"
-    if any(w in text for w in ["high", "severe", "remote code execution", "rce"]):
-        return "high"
-    if any(w in text for w in ["medium", "moderate", "privilege escalation"]):
-        return "medium"
-    if any(w in text for w in ["low", "minor", "informational"]):
-        return "low"
-    return None
-
-
-def classify_sector(title: str, summary: str) -> str | None:
-    """Simple keyword-based sector classification."""
-    text = (title + " " + summary).lower()
-    if any(w in text for w in ["energy", "power", "grid", "scada", "ics", "industrial"]):
-        return "energy"
-    if any(w in text for w in ["water", "wastewater", "treatment plant"]):
-        return "water"
-    if any(w in text for w in ["telecom", "5g", "network", "router", "cisco", "juniper"]):
-        return "telecom"
-    if any(w in text for w in ["hospital", "health", "medical", "patient"]):
-        return "health"
-    if any(w in text for w in ["bank", "finance", "financial", "payment"]):
-        return "finance"
-    if any(w in text for w in ["transport", "aviation", "rail", "maritime"]):
-        return "transport"
-    return None
-
-
-def classify_attack_type(title: str, summary: str) -> str | None:
-    """Simple keyword-based attack type classification."""
-    text = (title + " " + summary).lower()
-    if any(w in text for w in ["ransomware"]):
-        return "ransomware"
-    if any(w in text for w in ["ddos", "denial of service"]):
-        return "ddos"
-    if any(w in text for w in ["apt", "state-sponsored", "nation-state"]):
-        return "apt"
-    if any(w in text for w in ["supply chain", "supply-chain", "third-party"]):
-        return "supply-chain"
-    if any(w in text for w in ["phishing", "spear-phishing"]):
-        return "phishing"
-    if any(w in text for w in ["data breach", "data leak", "exfiltration"]):
-        return "data-breach"
-    return None
+from classifier import classify_severity, classify_sector, classify_attack_type
 
 
 def extract_cves(text: str) -> str | None:

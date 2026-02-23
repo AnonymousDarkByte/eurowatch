@@ -104,52 +104,7 @@ def extract_countries(markdown: str) -> str | None:
     return ",".join(sorted(countries)) if countries else None
 
 
-def classify_severity(text: str) -> str | None:
-    text = text.lower()
-    if any(w in text for w in ["critical", "zero-day", "0-day", "actively exploited"]):
-        return "critical"
-    if any(w in text for w in ["high", "remote code execution", "rce", "unauthenticated"]):
-        return "high"
-    if any(w in text for w in ["medium", "moderate"]):
-        return "medium"
-    if any(w in text for w in ["low", "minor"]):
-        return "low"
-    return None
-
-
-def classify_sector(text: str) -> str | None:
-    text = text.lower()
-    if any(w in text for w in ["energy", "power", "grid", "scada", "ics", "industrial", "ot "]):
-        return "energy"
-    if any(w in text for w in ["water", "wastewater"]):
-        return "water"
-    if any(w in text for w in ["telecom", "5g", "router", "cisco", "juniper", "network device", "vpn"]):
-        return "telecom"
-    if any(w in text for w in ["hospital", "health", "medical"]):
-        return "health"
-    if any(w in text for w in ["bank", "finance", "financial", "payment"]):
-        return "finance"
-    if any(w in text for w in ["transport", "aviation", "rail", "maritime"]):
-        return "transport"
-    return None
-
-
-def classify_attack_type(text: str) -> str | None:
-    text = text.lower()
-    if "ransomware" in text:
-        return "ransomware"
-    if any(w in text for w in ["ddos", "denial of service"]):
-        return "ddos"
-    if any(w in text for w in ["apt", "state-sponsored", "nation-state"]):
-        return "apt"
-    if any(w in text for w in ["supply chain", "supply-chain"]):
-        return "supply-chain"
-    if any(w in text for w in ["phishing", "spear-phishing"]):
-        return "phishing"
-    if any(w in text for w in ["data breach", "data leak", "exfiltration"]):
-        return "data-breach"
-    return None
-
+from classifier import classify_severity, classify_sector, classify_attack_type
 
 def already_exists(session: Session, source_url: str) -> bool:
     return session.exec(
